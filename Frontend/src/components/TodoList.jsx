@@ -15,25 +15,13 @@ function TodoList() {
       Component = CompletedTask;
       break;
   }
-  function Add(params) {
-    fetch('http://localhost:4000/add', {
-      method: 'POST',
-      headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ "id": 78912 })
-      })
-     .then(response => response.json())
-     .then(response => console.log(JSON.stringify(response)))
-  }
+
   return (
     <React.Fragment>
       <header>
         <TodoHeader />
       </header>
       {/* <nav><TodoNavbar /></nav> */}
-      <button onClick={() => Add("Ayush")}>Send Request</button>
       <section>
         <Component
           setCompletedTask={setCompletedTask}

@@ -6,7 +6,7 @@ import {EditTaskModal} from "./components/Row/EditTaskModal"
 function App() {
   return (
     <>
-      <EditTaskModal />
+      {/* <EditTaskModal /> */}
       <div className='bg-gradient-to-br from-blue-900 to-purple-900 h-[100vh]'>
         <TodoList />
       </div>

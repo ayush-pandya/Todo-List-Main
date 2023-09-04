@@ -6,9 +6,8 @@ export function Row({ task, deleteTask, id, className }) {
 
   return (
     <div className={`flex justify-between items-center ${className}`}>
-      <p className="p-2 w-[90%]">{taskName}</p>
-      <div>
-        <EditTaskModal
+      <p className="p-2 w-[80%]">{taskName}</p>
+        {/* <EditTaskModal
           onClickElement={
             <button
               className="bg-slate-500 rounded-lg m-2 p-2"
@@ -19,14 +18,11 @@ export function Row({ task, deleteTask, id, className }) {
           }
           visibility={modalopen}
           taskId={id}
-        />
+        /> */}
         <button
           className="bg-slate-500 rounded-lg m-2 p-2"
-          onClick={deleteTask}
-        >
-          Delete
-        </button>
-      </div>
+          onClick={() => setModalOpen(!modalopen)}
+          >Mark as Completed</button>
     </div>
   );
 }

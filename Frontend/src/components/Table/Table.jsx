@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Row } from "../Row/Row";
-import { Loader } from "../Loader";
+import { DottedLoader, Loader } from "../Loader";
 import { useAddTask } from "../../hooks/add-task";
 import { useGetTasks } from "../../hooks/get-tasks";
 
 function Table() {
   const [taskName, setTaskName] = useState("");
   const [deleting, setDeleting] = useState(false);
-  const tasks = useGetTasks();
 
-  const { addTask } = useAddTask();
+  const {data: tasks, isLoading, refetch} = useGetTasks();
+
+  const { AddTask } = useAddTask();
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    if (name === "add-task") {
+    const { value } = event.target;
       setTaskName(value);
-    }
   };
 
   const handleDeleteAll = useCallback(async () => {
@@ -26,6 +25,10 @@ function Table() {
       setDeleting(false);
     }, 2000);
   }, []);
+  
+  if(isLoading || !tasks){
+  return <DottedLoader />
+  }
 
   return (
     <React.Fragment>
@@ -42,8 +45,11 @@ function Table() {
           className="bg-blue-800 text-white rounded-xl p-2 disabled:bg-blue-300"
           onClick={() => {
             let taskId = Date.now();
-            addTask(taskId, taskName);
+            AddTask({taskId, taskName});
             setTaskName("");
+            setTimeout(() => {
+              refetch();
+            }, 2000);
           }}
           disabled={taskName.length === 0}
         >
@@ -55,7 +61,7 @@ function Table() {
           <button
             className="bg-blue-800 text-white rounded-xl p-2 disabled:bg-blue-300"
             onClick={handleDeleteAll}
-            disabled={tasks.length === 0}
+            disabled={!tasks}
           >
             Delete All
           </button>
@@ -65,7 +71,7 @@ function Table() {
       <span className="ml-5 font-bold font-sans text-3xl text-white tracking-tight">Tasks</span>
       {tasks.map((task) => (
         <Row
-          task={task.task}
+          task={task.body}
           className={
             "bg-gradient-to-r from-cyan-600 to-green-600 rounded-md p-1 mx-3 my-2"
           }
